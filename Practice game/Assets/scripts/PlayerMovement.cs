@@ -5,12 +5,16 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D rb;
+    private SpriteRenderer sprite;
     private Animator anim;
+    [SerializeField] private float movespeed = 7f;
+    [SerializeField] private float jumpspeed = 14f;
 
     // Start is called before the first frame update
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        sprite=GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
 
     }
@@ -19,20 +23,22 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         float dirx = Input.GetAxisRaw("Horizontal");
-        rb.velocity = new Vector2(dirx * 7f, rb.velocity.y);
+        rb.velocity = new Vector2(dirx * movespeed, rb.velocity.y);
 
         if (Input.GetButtonDown("Jump"))
         {
-            rb.velocity = new Vector2(rb.velocity.x, 14f);
+            rb.velocity = new Vector2(rb.velocity.x, jumpspeed);
 
         }
         if (dirx > 0f)
         {
             anim.SetBool("running", true);
+            sprite.flipX = false;
         }
         else if (dirx < 0f)
         { 
             anim.SetBool("running", true);
+            sprite.flipX=true;
         }
         else
         {
